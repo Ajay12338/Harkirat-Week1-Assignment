@@ -18,65 +18,60 @@
 // 10 + 2 * 6 -> 22
 // 10 + (2 * 6) -> 22
 class Calculator {
-    constructor(){
-      this.result = 0;
-    }
-    checkBrackets(expr)
-    {
-      let stack = [];
-      for(let ch of expr){
-        if(ch === '(') stack.push(ch);
-        else if(ch === ')'){
-          if(stack.length === 0) return false;
-          let topElement = stack.pop();
-          if(topElement !== '(') return false;
-        }
-        else continue;
-      }
-      return stack.length === 0 ? true : false;
-    }
-    parseExpr(expression){
-      let acceptableCharacters = ['+','-','*','/','(',')'];
-      let expr = "";
-      for(let ch of expression)
-      {
-        if((ch >= '0' && ch <= '9') ||(acceptableCharacters.includes(ch)))
-        {
-          expr += ch;
-        }
-        else if(ch === ' ') continue;
-        else throw new Error();
-      }
-      if([...expr].includes('(') || [...expr].includes(')')){
-        if(!this.checkBrackets([...expr])) throw new Error();
-      } 
-      return expr;
-    }
-    add(value){
-      this.result += value;
-    }
-    subract(value){
-      this.result -= value;
-    }
-    multiply(value){
-      this.result *= value;
-    }
-    divide(value){
-      if(value === 0) return undefined;
-      this.result /= value;
-    }
-    clear() {
-      this.result = 0;
-    }
-    getResult(){
-      return this.result;
-    }
-    calculate(expression){
-      expression = this.parseExpr(expression);
-      let ans = eval(expression);
-      return ans === Infinity ?  new Error() : ans;
-    }
+  constructor() {
+    this.result = 0;
+  }
+  // checkBrackets(expr) {
+  //   let stack = [];
+  //   for (let ch of expr) {
+  //     if (ch === "(") stack.push(ch);
+  //     else if (ch === ")") {
+  //       if (stack.length === 0) return false;
+  //       let topElement = stack.pop();
+  //       if (topElement !== "(") return false;
+  //     } else continue;
+  //   }
+  //   return stack.length === 0 ? true : false;
+  // }
+  // parseExpr(expression) {
+  //   let acceptableCharacters = ["+", "-", "*", "/", "(", ")"];
+  //   let expr = "";
+  //   for (let ch of expression) {
+  //     if (!isNaN(Number(ch)) || acceptableCharacters.includes(ch)) {
+  //       expr += ch;
+  //     } else if (ch === " ") continue;
+  //     else throw new Error();
+  //   }
+  //   if ([...expr].includes("(") || [...expr].includes(")")) {
+  //     if (!this.checkBrackets([...expr])) throw new Error();
+  //   }
+  //   return expr;
+  // }
+  add(value) {
+    this.result += value;
+  }
+  subtract(value) {
+    this.result -= value;
+  }
+  multiply(value) {
+    this.result *= value;
+  }
+  divide(value) {
+    if (value === 0) throw new Error();
+    this.result /= value;
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+  calculate(expression) {
+    // expression = this.parseExpr(expression);
+    let ans = eval(expression);
+    if (ans === Infinity || ans === -1 * Infinity) throw new Error();
+    this.result = ans;
+  }
 }
-let obj = new Calculator();
-console.log(obj.calculate("-10 /*/ 0"));
+
 module.exports = Calculator;
